@@ -1,0 +1,34 @@
+Sub ConvertToPDF()
+  'Declare variables
+  Dim wb As Workbook
+  Dim strPath As String
+  Dim strFile As String
+  Dim strFileList() As String
+  Dim intFile As Integer
+
+  'Set the path to the folder that contains the Excel files
+  strPath = "C:\Path\To\Folder\"
+
+  'Set the file type
+  strFile = "*.xlsx"
+
+  'Get a list of all Excel files in the folder
+  strFileList = Dir(strPath & strFile)
+
+  'Loop through all Excel files
+  Do While strFileList <> ""
+    'Open the Excel file
+    Set wb = Workbooks.Open(strPath & strFileList)
+
+    'Save the Excel file as a PDF file
+    wb.ExportAsFixedFormat Type:=xlTypePDF, _
+      Filename:=strPath & strFileList & ".pdf", _
+      Quality:=xlQualityStandard
+
+    'Close the Excel file
+    wb.Close SaveChanges:=False
+
+    'Get the next file
+    strFileList = Dir
+  Loop
+End Sub
